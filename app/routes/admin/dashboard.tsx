@@ -1,6 +1,6 @@
 const Dashboard = () => {
     return (
-        <div>Dashboard</div>
+        <div className="text-bold">Dashboard</div>
     )
 }
 export default Dashboard;
