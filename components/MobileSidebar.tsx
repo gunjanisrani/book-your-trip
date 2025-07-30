@@ -2,6 +2,7 @@
 
 import { Link } from "react-router-dom"; 
 import { SidebarComponent } from "@syncfusion/ej2-react-navigations";
+import NavItems from "./NavItems";
 
 const MobileSidebar=()=>{
     let sidebar:SidebarComponent;

@@ -9,54 +9,54 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
     const user ={
         name: "Admin",
         email: "email@gmail.com",
-        imageUrl: "/assets/images/user.png"
+        imageUrl: "/assets/images/david.webp"
     }
 
     return (
-        <section className="nav-items">
+        <section className="nav-items flex flex-col h-full">
             <Link to= "/" className="link-logo"> 
                 <img src="/assets/icons/logo.svg" alt="Logo" 
                 className="size-[30px]" />
                 <h1>Tourvisto</h1>
-                </Link>
+            </Link>
 
-                <div className="container">
-                    <nav>
-                        {sidebarItems.map(({id,href,icon,label}) => (
-                            <NavLink to={href} key={id}>
-                                {({isActive}:{isActive:boolean}) => (
-                                    <div className={cn('group nav-item',{
-                                        'bg-primary-100 !text-white': isActive
-                                    })} onClick={handleClick}>
-                                        <img src={icon} alt={label} 
-                                        className={`group-hover:brightness-0 size-0 
-                                            group-hover:invert ${isActive ? 'brightness-0 invert' :'text-dark-200'}`} 
-                                        />
-                                        {label}
-                                    </div>
-                                )}
-                            </NavLink>
-                        ))}
-                    </nav>
+            <div className="container flex flex-col h-full">
+                <nav className="flex-1">
+                    {sidebarItems.map(({id,href,icon,label}) => (
+                        <NavLink to={href} key={id}>
+                            {({isActive}:{isActive:boolean}) => (
+                                <div className={cn('group nav-item',{
+                                    'bg-primary-100 !text-white': isActive
+                                })} onClick={handleClick}>
+                                    <img src={icon} alt={label} 
+                                    className={`group-hover:brightness-0 size-0 
+                                        group-hover:invert ${isActive ? 'brightness-0 invert' :'text-dark-200'}`} 
+                                    />
+                                    {label}
+                                </div>
+                            )}
+                        </NavLink>
+                    ))}
+                </nav>
 
-                <footer className="nav-footer">
-                    <img src={user?.imageUrl || '/assets/images/david.webp'} alt={user?.name || 'User'} />
+                <footer className="nav-footer mt-auto pt-4 border-t border-gray-200">
+                    <div className="flex items-center gap-3 mb-2">
+                        <img src={user?.imageUrl} alt={user?.name || 'User'} className="w-8 h-8 rounded-full" />
+                        <div>
+                            <h2 className="text-sm font-semibold">{user?.name}</h2>
+                            <p className="text-xs text-gray-500">{user?.email}</p>
+                        </div>
+                    </div>
+                    <button
+                        onClick ={() => {
+                            console.log("Logout clicked");
+                        }}
+                        className="cursor-pointer flex items-center gap-2 text-sm text-gray-600 hover:text-red-500">
+                        <img src="/assets/icons/logout.svg" alt="Logout" className="size-4"/>
+                        Logout
+                    </button>
                 </footer>
-
-                <article>
-                    <h2>{user?.name}</h2>
-                    <p>{user?.email}</p>
-                </article>
-
-                <button
-                    onClick ={() => {
-                        console.log("Logout clicked");
-                    }}
-                    className="cursor-pointer">
-                        <img src="/assets/icons/logout.svg" alt="Logout" className="size=6"/>
-                </button>
-
-                </div>
+            </div>
         </section>
     )
 }
