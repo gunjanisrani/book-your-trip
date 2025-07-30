@@ -1,11 +1,14 @@
-import { Outlet } from "react-router";
-import { SidebarComponent } from "@syncfusion/ej2-react-navigations";
-import { NavItems } from "../../../components";
+import { Outlet } from "react-router"; //a placeholder to inject child routes
+import { SidebarComponent } from "@syncfusion/ej2-react-navigations"; //a component library for sidebar
+import { NavItems,MobileSidebar } from "../../../components";
 
 const AdminLayout = () => {
+    //show sidebar only on larger screens
+    //on smaller screens, show a mobile sidebar
     return (
-        <div className="admin-layout flex h-screen">
-            <aside className="w-full max-w-[270px] bg-white shadow-lg">
+        <div className="admin-layout">
+            <MobileSidebar/>
+            <aside className="w-full max-w-[270px] hidden lg:block"> 
                 <SidebarComponent width={270} enableGestures={false}>
                     <NavItems />
                 </SidebarComponent>
