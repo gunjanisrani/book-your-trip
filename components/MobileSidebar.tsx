@@ -34,7 +34,7 @@ const MobileSidebar=()=>{
                 
                 created={()=> sidebar.hide()}
                 closeOnDocumentClick={true}
-                ShowBackdrop={true}
+                showbackdrop={true}
                 type="over"
                 >
                 <NavItems handleClick={toggleSidebar

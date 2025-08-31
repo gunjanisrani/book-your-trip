@@ -1,3 +1,4 @@
+//This file allows you to declare interfaces which can be used throughout your application without needing to import it.
 declare interface BaseUser {
   id: string;
   name: string;
