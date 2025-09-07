@@ -7,7 +7,7 @@ const HomePage = () => {
                         Welcome to Book Your Trip
                     </h1>
                     <p className="text-xl text-gray-600 mb-8">
-                        Your ultimate travel planning companion
+                        Book your ultimate travel planning companion
                     </p>
                     <div className="space-x-4">
                         <a 

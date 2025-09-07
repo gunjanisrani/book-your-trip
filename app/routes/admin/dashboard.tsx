@@ -1,9 +1,18 @@
 import {Header, StatsCard, TripCard} from "../../../components/";
 import {dashboardStats, user, allTrips} from "~/constants";
-const Dashboard = () => {
+import { getUser } from "~/appwrite/auth";
+import type { Route } from "./+types/dashboard";
 
-    const{totalUsers, usersJoined, totalTrips, tripsCreated, userRole} = dashboardStats;
 
+const { totalUsers, usersJoined, totalTrips, tripsCreated, userRole } = dashboardStats;
+
+export async function clientLoader() {
+    return await getUser();
+}
+
+const Dashboard = ({loaderData}: Route.ComponentProps) => {
+    const user = loaderData as User | null;
+    
     return (
        <main className="dashboard wrapper">
         <Header 
@@ -47,6 +56,7 @@ const Dashboard = () => {
                     {allTrips.slice(0, 4).map(({ id, name, imageUrls, itinerary,tags,estimatedPrice}) => (
                     <TripCard 
                         key={id} 
+                        name={name}
                         id={id.toString()}
                         imageUrl={imageUrls[0]}
                         location={itinerary?.[0]?.location ?? ''}

@@ -1,15 +1,16 @@
-import { Link, NavLink } from "react-router-dom"; 
+import { Link, NavLink, useLoaderData,useNavigate} from "react-router-dom"; 
 //Link navigates to a route without reloading the page
 //NavLink is used to apply styles based on the active route
 import { sidebarItems } from "~/constants"; 
 import { cn } from "~/lib/utils"; //a utility function to conditionally join class names
-
+import { logoutUser } from "~/appwrite/auth";
 
 const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
-    const user ={
-        name: "Admin",
-        email: "email@gmail.com",
-        imageUrl: "/assets/images/david.webp"
+    const user =useLoaderData();
+    const navigate = useNavigate();
+    const handleLogout = async () => {
+        await logoutUser();
+        navigate('/sign-in');
     }
 
     return (
@@ -41,16 +42,14 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
 
                 <footer className="nav-footer mt-auto pt-4 border-t border-gray-200">
                     <div className="flex items-center gap-3 mb-2">
-                        <img src={user?.imageUrl} alt={user?.name || 'User'} className="w-8 h-8 rounded-full" />
+                        <img src={user?.imageUrl} alt={user?.name || 'User'} referrerPolicy="no-referrer" className="w-8 h-8 rounded-full" />
                         <div>
                             <h2 className="text-sm font-semibold">{user?.name}</h2>
                             <p className="text-xs text-gray-500">{user?.email}</p>
                         </div>
                     </div>
                     <button
-                        onClick ={() => {
-                            console.log("Logout clicked");
-                        }}
+                        onClick ={handleLogout}
                         className="cursor-pointer flex items-center gap-2 text-sm text-gray-600 hover:text-red-500">
                         <img src="/assets/icons/logout.svg" alt="Logout" className="size-4"/>
                         Logout

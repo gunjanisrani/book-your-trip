@@ -1,6 +1,27 @@
-import { Outlet } from "react-router"; //a placeholder to inject child routes
+import { Outlet,redirect } from "react-router"; //a placeholder to inject child routes
 import { SidebarComponent } from "@syncfusion/ej2-react-navigations"; //a component library for sidebar
 import { NavItems,MobileSidebar } from "../../../components";
+import { account } from "~/appwrite/client";
+import { getExistingUser, storeUserData } from "~/appwrite/auth";
+
+export async function clientLoader() {
+    try {
+        const user = await account.get();
+
+        if (!user.$id) return redirect('/sign-in');
+
+        const existingUser = await getExistingUser(user.$id);
+
+        if (existingUser?.status === 'user') {
+            return redirect('/');
+        }
+
+        return existingUser?.$id ? existingUser : await storeUserData();
+    } catch (e) {
+        console.log('Error in clientLoader', e)
+        return redirect('/sign-in')
+    }
+}
 
 const AdminLayout = () => {
     //show sidebar only on larger screens
