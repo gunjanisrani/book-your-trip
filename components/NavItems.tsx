@@ -42,7 +42,23 @@ const NavItems = ({handleClick}:{handleClick?:()=>void}) => {
 
                 <footer className="nav-footer mt-auto pt-4 border-t border-gray-200">
                     <div className="flex items-center gap-3 mb-2">
-                        <img src={user?.imageUrl} alt={user?.name || 'User'} referrerPolicy="no-referrer" className="w-8 h-8 rounded-full" />
+                        {user?.imageUrl ? (
+                            <img 
+                                src={user.imageUrl} 
+                                alt={user?.name || 'User'} 
+                                referrerPolicy="no-referrer" 
+                                className="w-8 h-8 rounded-full object-cover"
+                                onError={(e) => {
+                                    e.currentTarget.style.display = 'none';
+                                    e.currentTarget.nextElementSibling?.classList.remove('hidden');
+                                }}
+                            />
+                        ) : null}
+                        <div 
+                            className={`w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-gray-600 text-sm font-medium ${user?.imageUrl ? 'hidden' : ''}`}
+                        >
+                            {user?.name ? user.name.charAt(0).toUpperCase() : 'U'}
+                        </div>
                         <div>
                             <h2 className="text-sm font-semibold">{user?.name}</h2>
                             <p className="text-xs text-gray-500">{user?.email}</p>

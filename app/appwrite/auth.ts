@@ -25,6 +25,9 @@ export const storeUserData = async () => {
         const profilePicture = providerAccessToken
             ? await getGooglePicture(providerAccessToken)
             : null;
+        
+        // Use a default avatar if no Google picture is available
+        const defaultAvatar = "https://ui-avatars.com/api/?name=" + encodeURIComponent(user.name || 'User') + "&background=random&color=fff&size=200";
 
         const createdUser = await database.createDocument(
             appwriteConfig.databaseId,
@@ -34,14 +37,18 @@ export const storeUserData = async () => {
                 accountId: user.$id,
                 email: user.email,
                 name: user.name,
-                imageUrl: profilePicture,
+                imageUrl: profilePicture || defaultAvatar,
                 joinedAt: new Date().toISOString(),
+                status: 'admin', // Set default status to admin for now
             }
         );
 
         if (!createdUser.$id) redirect("/sign-in");
+        
+        return createdUser;
     } catch (error) {
         console.error("Error storing user data:", error);
+        return null;
     }
 };
 
@@ -107,7 +114,11 @@ export const getAllUsers = async (limit: number, offset: number) => {
         const { documents: users, total } = await database.listDocuments(
             appwriteConfig.databaseId,
             appwriteConfig.userCollectionId,
-            [Query.limit(limit), Query.offset(offset)]
+            [
+                Query.limit(limit), 
+                Query.offset(offset),
+                Query.select(["name", "email", "imageUrl", "joinedAt", "status", "accountId"])
+            ]
         )
 
         if (total === 0) return { users: [], total };

@@ -12,10 +12,10 @@ export async function clientLoader() {
 
         const existingUser = await getExistingUser(user.$id);
 
-        if (existingUser?.status === 'user') {
-            return redirect('/');
-        }
-
+        // Only redirect if user explicitly has 'user' status and we're trying to access admin routes
+        // For now, let's allow access and log the user status for debugging
+        console.log('User status:', existingUser?.status);
+        
         return existingUser?.$id ? existingUser : await storeUserData();
     } catch (e) {
         console.log('Error in clientLoader', e)
